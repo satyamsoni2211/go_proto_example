@@ -7,6 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"flag"
 )
 
 func unaryInterceptorfunc(
@@ -28,16 +29,20 @@ func streamInterceptorFunc(
 }
 
 func main() {
+	address := flag.String("address", "[::]:8080", "port to start server")
+	flag.Parse()
 	server := grpc.NewServer(
 		grpc.UnaryInterceptor(unaryInterceptorfunc),
 		grpc.StreamInterceptor(streamInterceptorFunc),
 	)
-	listener, err := net.Listen("tcp", "[::]:8080")
+	listener, err := net.Listen("tcp", *address)
+	log.Printf("Starting server on %v", *address)
 	if err != nil {
 		log.Fatalf("Cannot open listener on port 8080 :- %v", err)
 	}
 	FibServer := service.NewFibServer()
 	pb.RegisterFibonacciServiceServer(server, FibServer)
+
 	err = server.Serve(listener)
 	if err != nil {
 		log.Fatalf("Cannot server :- %v", err)

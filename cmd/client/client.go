@@ -2,15 +2,19 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
+	"github.com/satyamsoni2211/go_proto_example/pb"
 	"google.golang.org/grpc"
 	"io"
 	"log"
-	"github.com/satyamsoni2211/go_proto_example/pb"
 )
 
 func main() {
-	con, err := grpc.Dial("0.0.0.0:8080", grpc.WithInsecure())
+	address := flag.String("address", "[::]:8080", "port to connect to client")
+	flag.Parse()
+	log.Printf("Connecting client at %v", *address)
+	con, err := grpc.Dial(*address, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Cannot connect to server %v", err)
 	}
