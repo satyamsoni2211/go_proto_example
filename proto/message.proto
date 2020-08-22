@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = ".;pb";
+
+message FibonacciRequest {
+  uint32 number = 1;
+}
+
+message FibonacciResponse {
+  uint32 result = 1;
+}
+
+service FibonacciService {
+  rpc CalculateFibonacci(FibonacciRequest) returns (stream FibonacciResponse) {
+
+  };
+}
