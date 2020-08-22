@@ -7,13 +7,15 @@ import (
 	"log"
 )
 
-type FibonacciServer interface {
+type FibonacciServiceServer interface {
 	CalculateFibonacci(*pb.FibonacciRequest, pb.FibonacciService_CalculateFibonacciServer) error
 }
 
+//FibServer Server implements FibonacciServiceServer
 type FibServer struct {
 }
 
+//CalculateFibonacci Function to calculate and stream fibonacci
 func (f FibServer) CalculateFibonacci(
 	request *pb.FibonacciRequest,
 	stream pb.FibonacciService_CalculateFibonacciServer) error {
@@ -30,6 +32,7 @@ func (f FibServer) CalculateFibonacci(
 	return nil
 }
 
+//NewFibServer constructor for the server
 func NewFibServer() *FibServer {
 	return &FibServer{}
 }
