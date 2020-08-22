@@ -4,4 +4,4 @@ server
 .vscode
 *log
 *json
-!cmd
+!cmd.*
