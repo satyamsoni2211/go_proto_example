@@ -1,2 +1,6 @@
 client
 server
+.idea
+.vscode
+*log
+*json
