@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
+	"flag"
 	"github.com/satyamsoni2211/go_proto_example/pb"
 	"github.com/satyamsoni2211/go_proto_example/service"
 	"google.golang.org/grpc"
 	"log"
 	"net"
-	"flag"
 )
 
 func unaryInterceptorfunc(
@@ -41,7 +41,12 @@ func main() {
 		log.Fatalf("Cannot open listener on port 8080 :- %v", err)
 	}
 	FibServer := service.NewFibServer()
+	ImageServer := service.NewImageServer("img", make(map[string]string))
+
+	//registering Fibonacci server
 	pb.RegisterFibonacciServiceServer(server, FibServer)
+	//registering image server
+	pb.RegisterUploadImageServiceServer(server, ImageServer)
 
 	err = server.Serve(listener)
 	if err != nil {
